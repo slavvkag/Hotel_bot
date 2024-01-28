@@ -15,7 +15,7 @@ def get_list_history(message: Message) -> None:
         : return : None
     """
     logger.info(f'Выбрана команда history! User_id: {message.chat.id}')
-    queries = database.read_from_db.read_sql_query(message.chat.id)
+    queries = database.read_from_db.read_query(message.chat.id)
     if queries:
         logger.info(f'Получены записи из таблицы query:\n {queries}. User_id: {message.chat.id}')
         for item in queries:
@@ -36,7 +36,7 @@ def input_number(message: Message) -> None:
         : return : None
     """
     if message.text.isdigit():
-        queries = database.read_from_db.read_sql_query(message.chat.id)
+        queries = database.read_from_db.read_query(message.chat.id)
         number_query = []
         photo_need = ''
         for item in queries:
