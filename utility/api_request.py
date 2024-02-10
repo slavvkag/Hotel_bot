@@ -4,7 +4,7 @@ from config_data import config
 headers = {
     "content-type": "application/json",
     "X-RapidAPI-Key": config.RAPID_API_KEY,
-    "X-RapidAPI-Host": "hotels-com-provider.p.rapidapi.com"
+    "X-RapidAPI-Host": "hotels4.p.rapidapi.com"
 }
 
 

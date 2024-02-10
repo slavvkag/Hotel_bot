@@ -42,10 +42,10 @@ def input_city(message: Message) -> None:
         # Создаем запрос для поиска вариантов городов и генерируем клавиатуру
         url = "https://hotels4.p.rapidapi.com/locations/v3/search"
         querystring = {"q": message.text, "locale": "en_US"}
-        response_cities = utils.api_request.request('GET', url, querystring)
+        response_cities = utility.api_request.request('GET', url, querystring)
         if response_cities.status_code == 200:
             logger.info('Сервер ответил: ' + str(response_cities.status_code) + f' User_id: {message.chat.id}')
-            possible_cities = utils.processing_json.get_city(response_cities.text)
+            possible_cities = utility.processing_json.get_city(response_cities.text)
             keyboards.inline.create_buttons.show_cities_buttons(message, possible_cities)
         else:
             bot.send_message(message.chat.id, f"Что-то пошло не так, код ошибки: {response_cities.status_code}")
@@ -159,7 +159,7 @@ def input_landmark_out(message: Message) -> None:
         logger.info('Ввод и запись конца диапазона от центра: ' + message.text + f' User_id: {message.chat.id}')
         with bot.retrieve_data(message.chat.id) as data:
             data['landmark_out'] = message.text
-            utils.show_data_and_find_hotels.print_data(message, data)
+            utility.show_data_and_find_hotels.print_data(message, data)
     else:
         bot.send_message(message.chat.id, 'Ошибка! Вы ввели не число! Повторите ввод!')
 

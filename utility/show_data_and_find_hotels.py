@@ -47,12 +47,12 @@ def find_and_show_hotels(message: Message, data: Dict) -> None:
     }
     url = "https://hotels4.p.rapidapi.com/properties/v2/list"
     # Отправка запроса серверу на поиск отелей
-    response_hotels = utils.api_request.request('POST', url, payload)
+    response_hotels = utility.api_request.request('POST', url, payload)
     logger.info(f'Сервер вернул ответ {response_hotels.status_code}. User_id: {message.chat.id}')
     # Если сервер возвращает статус-код не 200, то все остальные действия будут бессмысленными.
     if response_hotels.status_code == 200:
         # Обработка полученного ответа от сервера и формирование отсортированного словаря с отелями
-        hotels = utils.processing_json.get_hotels(
+        hotels = utility.processing_json.get_hotels(
             response_text=response_hotels.text,
             command=data['command'],
             landmark_in=data["landmark_in"],
@@ -77,14 +77,14 @@ def find_and_show_hotels(message: Message, data: Dict) -> None:
                     "propertyId": hotel['id']
                 }
                 summary_url = "https://hotels4.p.rapidapi.com/properties/v2/get-summary"
-                get_summary = utils.api_request.request('POST', summary_url, summary_payload)
+                get_summary = utility.api_request.request('POST', summary_url, summary_payload)
                 logger.info(f'Сервер вернул ответ {get_summary.status_code}. User_id: {message.chat.id}')
                 if get_summary.status_code == 200:
-                    summary_info = utils.processing_json.hotel_info(get_summary.text)
+                    summary_info = utility.processing_json.hotel_info(get_summary.text)
 
                     caption = f'Название: {hotel["name"]}\n ' \
                               f'Адрес: {summary_info["address"]}\n' \
-                              f'Стоимость проживания в сутки: {hotel["price"]}\n ' \
+                              f'Стоимость проживания в сутки: {round(hotel["price"], 2)}\n ' \
                               f'Расстояние до центра: {round(hotel["distance"], 2)} mile.\n'
 
                     medias = []
