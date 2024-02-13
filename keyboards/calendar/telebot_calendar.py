@@ -81,12 +81,18 @@ class Calendar:
         )
         # переменная date_now для сравнения "сегодняшнего дня" с датой в календаре, дабы убрать из календаря
         # все даты которые меньше сегодняшней даты, дата в формате 20230331
-        date_now = str(now_day.year) + check_month_day(str(now_day.month)) + check_month_day(str(now_day.day))
+        date_now = (
+            str(now_day.year)
+            + check_month_day(str(now_day.month))
+            + check_month_day(str(now_day.day))
+        )
         # Вывод дней недели
         for week in calendar.monthcalendar(year, month):
             row = list()
             for day in week:
-                date_calendar = str(year) + check_month_day(str(month)) + check_month_day(str(day))
+                date_calendar = (
+                    str(year) + check_month_day(str(month)) + check_month_day(str(day))
+                )
                 if day == 0 or int(date_calendar) < int(date_now):
                     row.append(InlineKeyboardButton(" ", callback_data=data_ignore))
 
@@ -94,7 +100,6 @@ class Calendar:
                 elif (
                     f"{now_day.day}.{now_day.month}.{now_day.year}"
                     == f"{day}.{month}.{year}"
-
                 ):
                     row.append(
                         InlineKeyboardButton(
@@ -122,7 +127,8 @@ class Calendar:
                 callback_data=calendar_callback.new("PREVIOUS-MONTH", year, month, "!"),
             ),
             InlineKeyboardButton(
-                "Следующий месяц", callback_data=calendar_callback.new("NEXT-MONTH", year, month, "!")
+                "Следующий месяц",
+                callback_data=calendar_callback.new("NEXT-MONTH", year, month, "!"),
             ),
         )
 
@@ -261,7 +267,9 @@ class CallbackData:
         if not prefix:
             raise ValueError("Префикс не должен быть пустым")
         if sep in prefix:
-            raise ValueError(f"Разделитель {sep!r} не может использоваться в качестве префикса")
+            raise ValueError(
+                f"Разделитель {sep!r} не может использоваться в качестве префикса"
+            )
         if not parts:
             raise TypeError("Части не были переданы!")
 
@@ -355,5 +363,5 @@ def check_month_day(number: str) -> str:
     """
     numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     if int(number) in numbers:
-        number = '0' + number
+        number = "0" + number
     return number

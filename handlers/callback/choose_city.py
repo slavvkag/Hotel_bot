@@ -12,11 +12,13 @@ def destination_id_callback(call: CallbackQuery) -> None:
     : param call: получает id города
     : return : None
     """
-    logger.info(f'Пользователь выбрал город. User_id: {call.message.chat.id}')
+    logger.info(f"Пользователь выбрал город. User_id: {call.message.chat.id}")
     if call.data:
         bot.set_state(call.message.chat.id, UserInputState.destinationId)
         with bot.retrieve_data(call.message.chat.id) as data:
-            data['destination_id'] = call.data
+            data["destination_id"] = call.data
         bot.delete_message(call.message.chat.id, call.message.message_id)
         bot.set_state(call.message.chat.id, UserInputState.quantity_hotels)
-        bot.send_message(call.message.chat.id, 'Сколько вывести отелей в чат? Не более 25!')
+        bot.send_message(
+            call.message.chat.id, "Сколько вывести отелей в чат? Не более 25!"
+        )
